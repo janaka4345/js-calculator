@@ -38,7 +38,7 @@ export default function page() {
     });
     str += digit;
     console.log(str, "=");
-    setDigit("0");
+    setDigit("0")
     setResult(eval(str));
 
     console.log("result=", result);

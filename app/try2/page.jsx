@@ -3,52 +3,37 @@ import React, { useEffect, useState } from "react";
 
 export default function page() {
   const [digit, setDigit] = useState("0");
-  const [numArr, setNumArr] = useState([]);
-  const [opArr, setOpArr] = useState([]);
-  const [result, setResult] = useState("0");
+  const [result, setResult] = useState();
 
   useEffect(() => {
-    setResult(Number(digit));
+    setResult(digit);
   }, [digit]);
 
   function handleNumberClick(number) {
-    // if (digit === "0" && number === "0") {
-    //   return;
-    // }
-    digit === "0" ? setDigit(number) : setDigit((prev) => prev.concat(number));
-    console.log(number);
+    if (digit === "0" && number === "0") {
+      return;
+    }
+    if (digit.charAt(digit.length - 1) === "." && number === ".") {
+      return;
+    }
+    setDigit((prev) => prev.concat(number));
   }
-  function handleOperation(operator) {
-    setNumArr((prev) => [...prev, digit]);
-    setOpArr((prev1) => [...prev1, operator]);
-    setDigit("0");
-    console.log(operator);
-  }
+
   function handleClear() {
     setDigit("0");
-    setOpArr([]);
-    setNumArr([]);
-    setResult(0);
-    console.log("clear");
+    setResult("");
   }
   function handleOutput() {
-    let str = "";
-    numArr.map((val, i) => {
-      str += val + opArr[i];
-    });
-    str += digit;
-    console.log(str, "=");
-    setDigit("0");
-    setResult(eval(str));
-
-    console.log("result=", result);
+    setResult(eval(digit));
+    console.log(digit);
+    console.log(result);
+    console.log(eval(digit));
   }
-  function handleDotClick() {
-    if (!digit.includes(".")) {
-      handleNumberClick(".");
-    }
-    console.log(".");
-  }
+  // function handleDotClick(number) {
+  //   if (!number.includes(".")) {
+  //     setDigit((prev) => prev.concat(number));
+  //   }
+  // }
 
   return (
     <div>
@@ -66,14 +51,14 @@ export default function page() {
         <button
           id="divide"
           className=" items-center justify-center w-full h-full  text-sm font-medium text-gray-900 rounded-lg bg-blue-500 hover:bg-purple-600 hover:text-white   focus:outline-none focus:ring-blue-300 "
-          onClick={() => handleOperation("/")}
+          onClick={() => handleNumberClick("/")}
         >
           /
         </button>
         <button
           id="multiply"
           className=" items-center justify-center w-full h-full  text-sm font-medium text-gray-900 rounded-lg bg-blue-500 hover:bg-purple-600 hover:text-white   focus:outline-none focus:ring-blue-300 "
-          onClick={() => handleOperation("*")}
+          onClick={() => handleNumberClick("*")}
         >
           *
         </button>
@@ -101,7 +86,7 @@ export default function page() {
         <button
           id="subtract"
           className=" items-center justify-center w-full h-full  text-sm font-medium text-gray-900 rounded-lg bg-blue-500 hover:bg-purple-600 hover:text-white   focus:outline-none focus:ring-blue-300 "
-          onClick={() => handleOperation("-")}
+          onClick={() => handleNumberClick("-")}
         >
           -
         </button>
@@ -129,7 +114,7 @@ export default function page() {
         <button
           id="add"
           className=" items-center justify-center w-full h-full  text-sm font-medium text-gray-900 rounded-lg bg-blue-500 hover:bg-purple-600 hover:text-white   focus:outline-none focus:ring-blue-300 "
-          onClick={() => handleOperation("+")}
+          onClick={() => handleNumberClick("+")}
         >
           +
         </button>
@@ -171,7 +156,7 @@ export default function page() {
         <button
           id="decimal"
           className="items-center justify-center w-full h-full  text-sm font-medium text-gray-900 rounded-lg bg-blue-500 hover:bg-purple-600 hover:text-white   focus:outline-none focus:ring-blue-300 "
-          onClick={() => handleDotClick()}
+          onClick={() => handleNumberClick(".")}
         >
           .
         </button>
